@@ -1,0 +1,56 @@
+name: compile
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+
+  installandcompile:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install LaTeX
+        run: >
+            sudo apt-get update && sudo apt-get -y install curl perl python3
+            && curl -L -o install-tl-unx.tar.gz https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+            && tar -xf install-tl-unx.tar.gz
+            && cd install-tl-2*
+            && sudo perl ./install-tl --no-interaction --scheme=basic
+            && cd /usr/local/texlive/2*/bin/x86_64-linux
+            && echo $(pwd) >> "${GITHUB_PATH}"
+
+      - name: Install LaTeX Packages
+        run: >
+            sudo env PATH="${PATH}" tlmgr install texliveonfly
+            && cd src
+            && sudo env PATH="${PATH}" python3 /usr/local/texlive/2*/bin/x86_64-linux/texliveonfly main.tex
+
+      - name: Compile PDF
+        run: >
+            cd src
+            && sudo env PATH="${PATH}" pdflatex -interaction=nonstopmode -output-format=pdf main.tex
+            && sudo env PATH="${PATH}" pdflatex -interaction=nonstopmode -output-format=pdf main.tex
+
+      - name: Commit PDF
+        run: >
+            git config --global user.name "${GITHUB_ACTOR}"
+            && git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
+            && git fetch
+            && mv src/main.pdf Allan_Gurwicz-CV.pdf
+            && git add Allan_Gurwicz-CV.pdf
+            && git commit -m "Adding PDF from GitHub Actions compilation"
+            && git checkout gh-pages
+            && git cherry-pick $(git rev-parse main) --strategy-option theirs
+            && git push origin gh-pages
+            && git checkout main
+            && git reset --hard HEAD~1
