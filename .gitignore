@@ -1,0 +1,11 @@
+# IDE files
+.idea/
+
+# Output directory
+output/
+
+# LaTeX compilation files
+*.aux
+*.log
+*.out
+*.synctex.*
