@@ -48,9 +48,9 @@
 % Custom commands
 \newenvironment{cvswitchfont}[1]{\fontsize{#1}{1pt}\fontsize{#1}{1pt}\selectfont}{}
 
-\newcommand{\cvcontentsection}[1]{%
+\newcommand{\cvcontentsection}[2][]{%
     \vspace{-0.5pt}%
-    \par \bigskip\textbf{\underline{\MakeUppercase{#1}}}%
+    \par \bigskip\textbf{\underline{\MakeUppercase{#2}}} #1%
     \vspace{4.5pt}%
 }
 
