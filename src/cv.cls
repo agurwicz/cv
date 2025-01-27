@@ -81,3 +81,9 @@
     #1\hfill#2\hspace{-0.5em}%
     \vspace{3pt}%
 }
+
+\newcommand{\cvteaching}[3]{%
+    \vspace{6pt}%
+    #1.\hfill#2, #3%
+    \hspace{-0.5em}\par%
+}
