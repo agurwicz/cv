@@ -1,8 +1,11 @@
-% Font sizes
-\newcommand{\contentsize}{9pt}
+% Sizes
+\newcommand{\contentsize}{8pt}
 \newcommand{\headernamesize}{18pt}
 \newcommand{\headerinfosize}{9pt}
 \newcommand{\publicationauthorsize}{8pt}
+
+\newcommand{\cvlisttopspace}{-0.45em}
+\newcommand{\cvlistbottomspace}{0.9em}
 
 % Using extarticle for smaller font sizes
 \LoadClass[\contentsize]{extarticle}
@@ -49,8 +52,6 @@
 }
 
 % Custom commands
-\newcommand{\cvlisttopspace}{-0.45em}
-\newcommand{\cvlistbottomspace}{0.8em}
 
 \newenvironment{cvswitchfont}[1]{\fontsize{#1}{1pt}\fontsize{#1}{1pt}\selectfont}{}
 
