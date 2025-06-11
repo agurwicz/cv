@@ -4,8 +4,8 @@
 \newcommand{\headerinfosize}{9pt}
 \newcommand{\publicationauthorsize}{8pt}
 
-\newcommand{\cvlisttopspace}{-0.45em}
-\newcommand{\cvlistbottomspace}{0.9em}
+\newcommand{\cvlisttopspace}{-0.4em}
+\newcommand{\cvlistbottomspace}{0.95em}
 
 % Using extarticle for smaller font sizes
 \LoadClass[\contentsize]{extarticle}
@@ -63,21 +63,23 @@
     \vspace{1.5em}
 }
 
-\NewDocumentEnvironment{cvjob}{smmmm}{%
-    \textit{#2}, \textbf{#3} \textendash\ #4\hfill#5%
+\NewDocumentEnvironment{cvjob}{smmmm+b}{%
+    \textit{#2}, \textbf{#3} \IfBlankTF{#4}{}{\textendash\ #4}\hfill#5%
     \hspace{-0.5em}
-    \vspace{\cvlisttopspace}\begin{itemize}[topsep=\cvlistbottomspace,itemsep=0.3mm,rightmargin=\leftmargin]
-}{%
-    \end{itemize}
-    \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}
-}
+    \vspace{\cvlisttopspace}%
+    \ifstrempty{#6}{}{%
+        \begin{itemize}[topsep=\cvlistbottomspace,itemsep=0.3mm,rightmargin=\leftmargin]
+            #6
+        \end{itemize}%
+        \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}%
+    }
+}{}
 
 \newcommand{\cvdoilink}[1]{\href{https://doi.org/#1}{DOI: \texttt{#1}.}}
 
-\NewDocumentCommand{\cvpublication}{smmm}{%
-    \textbf{\textit{#2}}
-    \newline \begin{cvswitchfont}{\publicationauthorsize} #3 \end{cvswitchfont}
-    \vspace{\cvlisttopspace}\begin{itemize}[topsep=\cvlistbottomspace] \item #4 \end{itemize}
+\NewDocumentCommand{\cvpublication}{smmmo}{%
+    #3\IfValueT{#5}{ (#5).} #2. #4
+    \vspace{\cvlistbottomspace}
     \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}
 }
 
@@ -87,9 +89,9 @@
     \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}
 }
 
-\NewDocumentCommand{\cvaward}{smm}{%
-    #2
-    \vspace{\cvlisttopspace}\begin{itemize}[topsep=\cvlistbottomspace] \item #3 \end{itemize}
+\NewDocumentCommand{\cvaward}{smmmm}{%
+    \textbf{#2}, #3\hfill#4
+    \vspace{\cvlisttopspace}\begin{itemize}[topsep=\cvlistbottomspace] \item #5 \end{itemize}
     \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}
 }
 
