@@ -5,7 +5,7 @@
 \newcommand{\publicationauthorsize}{8pt}
 
 \newcommand{\cvlisttopspace}{-0.4em}
-\newcommand{\cvlistbottomspace}{0.95em}
+\newcommand{\cvlistbottomspace}{0.9em}
 
 % Using extarticle for smaller font sizes
 \LoadClass[\contentsize]{extarticle}
