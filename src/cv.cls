@@ -28,7 +28,6 @@
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 \rfoot{\thepage/\pageref{LastPage}}
-\setlength{\footskip}{0cm}
 \setlength{\parindent}{0pt}
 \renewcommand{\familydefault}{\sfdefault}
 \newcommand{\cvbullet}{\boldmath\( \cdot \)}
