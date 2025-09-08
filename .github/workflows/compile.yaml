@@ -31,7 +31,7 @@ jobs:
 
       - name: Install LaTeX Packages
         run: >
-            sudo env PATH="${PATH}" tlmgr install texliveonfly
+            sudo env PATH="${PATH}" tlmgr install texliveonfly collection-fontsrecommended collection-fontsextra
             && cd src
             && sudo env PATH="${PATH}" python3 /usr/local/texlive/2*/bin/x86_64-linux/texliveonfly main.tex
 

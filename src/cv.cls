@@ -21,6 +21,7 @@
 \RequirePackage{booktabs}
 \RequirePackage{float}
 \RequirePackage{lmodern}
+\RequirePackage{sansmathfonts}
 
 % Setup
 \pagestyle{fancy}
