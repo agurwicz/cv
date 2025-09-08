@@ -158,6 +158,6 @@
     #4\ifstrempty{#5}{}{, #5}
 
     \vspace{3pt}
-    \href{mailto:#2}{\texttt{#2}} \( \vert \) #6
+    \href{mailto:#2}{#2} \( \vert \) #6
     \vspace{\cvlistbottomspace}
 }
