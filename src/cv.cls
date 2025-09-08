@@ -1,17 +1,18 @@
 % Sizes
-\newcommand{\contentsize}{8pt}
-\newcommand{\headernamesize}{18pt}
-\newcommand{\headerinfosize}{9pt}
-\newcommand{\publicationauthorsize}{8pt}
+\newcommand{\contentsize}{9pt}
+\newcommand{\headernamesize}{24pt}
+\newcommand{\headerinfosize}{9.5pt}
+\newcommand{\sectionsize}{12pt}
+\newcommand{\publicationauthorsize}{9pt}
 
-\newcommand{\cvlisttopspace}{-0.4em}
+\newcommand{\cvlisttopspace}{-0.5em}
 \newcommand{\cvlistbottomspace}{0.9em}
+\newcommand{\headertopspace}{1.4em}
 
-% Using extarticle for smaller font sizes
-\LoadClass[\contentsize]{extarticle}
+\LoadClass[\contentsize]{article}
 
 % Packages
-\RequirePackage[papersize={8.5in, 11in}, left=0.3in, right=0.3in, top=0.5in, bottom=0.5in]{geometry}
+\RequirePackage[papersize={8.5in, 11in}, margin=0.5in]{geometry}
 \RequirePackage[hidelinks]{hyperref}
 \RequirePackage{enumitem}
 \RequirePackage{fancyhdr}
@@ -20,13 +21,14 @@
 \RequirePackage{booktabs}
 \RequirePackage{float}
 \RequirePackage{lmodern}
+\RequirePackage{sansmathfonts}
 
 % Setup
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 \rfoot{\thepage/\pageref{LastPage}}
-\linespread{0.5}
+\setlength{\footskip}{0cm}
 \setlength{\parindent}{0pt}
 \renewcommand{\familydefault}{\sfdefault}
 \newcommand{\cvbullet}{\boldmath\( \cdot \)}
@@ -34,51 +36,88 @@
 \setlist[itemize]{itemsep=-1pt, topsep=1pt}
 
 % Header
-\newcommand{\cvhline}[1]{\noindent\makebox[\linewidth]{\rule{\textwidth+0.5em}{#1}}}
+\newcommand{\cvhline}[1]{\noindent\rule{\textwidth}{#1}}
+\newcommand{\headerspace}{\hspace{6pt}\( \vert \)\hspace{6pt}}
 
-\newcommand{\cvmakeheader}[5]{
-    \begin{minipage}{.45\linewidth} \begin{flushleft}
-        \begin{cvswitchfont}{\headernamesize} \textbf{#1} \end{cvswitchfont}
-    \end{flushleft} \end{minipage}
-    \hfill
-    \begin{minipage}{.45\linewidth} \begin{flushright} \begin{cvswitchfont}{\headerinfosize}
-        \hfill \href{mailto:#2}{\texttt{#2}} \( \vert \) \href{tel:#3}{\texttt{#3}} \newline
-        \hfill \href{https://www.#4}{\texttt{#4}} \( \vert \) \href{https://www.#5}{\texttt{#5}}
-    \end{cvswitchfont} \end{flushright} \end{minipage}
+\newcommand{\cvmakeheader}[6]{
+    \begin{center}
+        \begin{cvswitchfont}{\headernamesize}
+            #1
+        \end{cvswitchfont}
 
-    \vspace{0.5em}
-    \cvhline{0.8pt}
-    \vspace{1em}
+        \vspace{8pt}
+        \begin{cvswitchfont}{\headerinfosize}
+            \href{https://#2}{#2}\headerspace
+            \href{https://#3}{#3}\headerspace
+            \href{mailto:#4}{#4}\headerspace
+            \href{tel:#5}{#6}
+        \end{cvswitchfont}
+    \end{center}
+
+    \vspace{2em}
 }
 
 % Custom commands
 
 \newenvironment{cvswitchfont}[1]{\fontsize{#1}{1pt}\fontsize{#1}{1pt}\selectfont}{}
 
-\newenvironment{cvcontentsection}[2][]{%
-    \textbf{\MakeUppercase{#2}} #1
-    \newline \vspace{-2pt} \cvhline{0.05pt}
-    ~\newline
-}{
-    \vspace{1.5em}
-}
+\NewDocumentEnvironment{cvcontentsection}{smO{}}{%
+    \IfBooleanF{#1}{\vspace{\headertopspace}}%
+    \begin{cvswitchfont}{\sectionsize} \textsc{#2} \end{cvswitchfont} #3
 
-\NewDocumentEnvironment{cvjob}{smmmm+b}{%
-    \textit{#2}, \textbf{#3} \IfBlankTF{#4}{}{\textendash\ #4}\hfill#5%
-    \hspace{-0.5em}
-    \vspace{\cvlisttopspace}%
-    \ifstrempty{#6}{}{%
+    \vspace{-4pt}\cvhline{0.05pt}
+}{}
+
+\NewDocumentEnvironment{cvsubcontentsection}{smO{}}{%
+    \IfBooleanF{#1}{\vspace{\headertopspace}}%
+    \begin{cvswitchfont}{\sectionsize} \textsc{#2} \end{cvswitchfont} #3
+    ~\newline
+}{}
+
+\NewDocumentEnvironment{cvjob}{smmmmm+b}{%
+    \begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+        \textbf{#2} & #3
+    \end{tabular*}
+
+    \vspace{3.75pt}
+    \begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+        \textit{#4} & #5\ifstrempty{#6}{}{ \textendash\ #6}
+    \end{tabular*}
+
+    \vspace{\cvlisttopspace}
+    \ifstrempty{#7}{}{%
         \begin{itemize}[topsep=\cvlistbottomspace,itemsep=0.3mm,rightmargin=\leftmargin]
-            #6
+            #7
+        \end{itemize}%
+        \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}%
+    }
+}{}
+\NewDocumentEnvironment{cvjob2}{smmmmm+b}{%
+    \begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+        \textbf{#2} & #3
+    \end{tabular*}
+
+    \vspace{3.75pt}
+    \begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+        \textit{#4} & #5 \\
+        & #6
+    \end{tabular*}
+
+    \vspace{\cvlisttopspace}
+    \ifstrempty{#7}{}{%
+        \begin{itemize}[topsep=\cvlistbottomspace,itemsep=0.3mm,rightmargin=\leftmargin]
+            #7
         \end{itemize}%
         \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}%
     }
 }{}
 
-\newcommand{\cvdoilink}[1]{\href{https://doi.org/#1}{DOI: \texttt{#1}.}}
+\newcommand{\cvdoilink}[1]{%
+    \url{https://doi.org/#1}.%
+}
 
 \NewDocumentCommand{\cvpublication}{smmmo}{%
-    #3\IfValueT{#5}{ (#5).} #2. #4
+    #3\IfValueT{#5}{ (#5).} #2. #4%
     \vspace{\cvlistbottomspace}
     \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}
 }
@@ -95,11 +134,30 @@
     \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}
 }
 
-\NewDocumentCommand{\cvteaching}{sO{}mm}{%
-    #3\hfill#4\ifthenelse{\isempty{#2}}{}{, #2}%
-    \vspace{\cvlistbottomspace}
-    \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}%
-}
+\NewDocumentEnvironment{cvteaching}{smmm+b}{%
+    \begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+        \textbf{#2} & #3\ifstrempty{#4}{}{ \textendash\ #4}
+    \end{tabular*}
 
-\NewDocumentCommand{\cvskill}{sm}{\IfBooleanF{#1}{&} \cvbullet~#2}
-\NewDocumentEnvironment{cvskills}{m}{\begin{tabular}{#1}}{\end{tabular}}
+    \vspace{\cvlisttopspace}
+    \ifstrempty{#5}{}{%
+        \begin{itemize}[topsep=\cvlistbottomspace,itemsep=0.3mm,rightmargin=\leftmargin]
+            #5
+        \end{itemize}%
+        \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}%
+    }
+}{}
+
+\NewDocumentCommand{\cvitem}{sm}{\IfBooleanF{#1}{&} \cvbullet~#2}
+\NewDocumentEnvironment{cvitems}{m}{\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}#1}}{\end{tabular*}}
+
+\NewDocumentCommand{\cvreference}{mmmmmm}{
+    \textbf{#1}, #3
+
+    \vspace{3pt}
+    #4\ifstrempty{#5}{}{, #5}
+
+    \vspace{3pt}
+    \href{mailto:#2}{\texttt{#2}} \( \vert \) #6
+    \vspace{\cvlistbottomspace}
+}
