@@ -122,9 +122,9 @@
     \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}
 }
 
-\NewDocumentCommand{\cvtalk}{smmm}{%
-    \textbf{\textit{#2}}\hfill#4
-    \vspace{\cvlisttopspace}\begin{itemize}[topsep=\cvlistbottomspace] \item #3 \end{itemize}
+\NewDocumentCommand{\cvtalk}{smm}{%
+    \textbf{\textit{#2}}
+    \vspace{\cvlisttopspace}\begin{itemize}[topsep=\cvlistbottomspace] #3 \end{itemize}
     \IfBooleanT{#1}{\vspace{-\cvlistbottomspace}}
 }
 
