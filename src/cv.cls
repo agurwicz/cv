@@ -7,7 +7,7 @@
 
 \newcommand{\cvlisttopspace}{-0.5em}
 \newcommand{\cvlistbottomspace}{0.9em}
-\newcommand{\headertopspace}{1.4em}
+\newcommand{\headertopspace}{1.34em}
 
 \LoadClass[\contentsize]{article}
 
